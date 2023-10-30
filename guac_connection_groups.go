@@ -2,21 +2,19 @@ package guacamole
 
 import (
 	"encoding/json"
-
-	. "github.com/mdanidl/guac-api/types"
 )
 
-func (g *Guac) GetConnectionTree() (GuacConnectionGroup, error) {
+func (g *Guacamole) GetConnectionTree() (GuacConnectionGroup, error) {
 	body, err := g.Call("GET", "/api/session/data/mysql/connectionGroups/ROOT/tree", nil, nil)
 
-	var connresp GuacConnectionGroup
+	var resp GuacConnectionGroup
 
-	err = json.Unmarshal(body, &connresp)
+	err = json.Unmarshal(body, &resp)
 	if err != nil {
-		return GuacConnectionGroup{}, err
+		return resp, err
 	}
 
-	return connresp, err
+	return resp, err
 }
 
 func flatten(nested []GuacConnectionGroup) ([]GuacConnection, []GuacConnectionGroup, error) {
@@ -45,7 +43,7 @@ func flatten(nested []GuacConnectionGroup) ([]GuacConnection, []GuacConnectionGr
 	return flat_conns, flat_grps, nil
 }
 
-func (g *Guac) CreateConnectionGroup(conn *GuacConnectionGroup) (GuacConnectionGroup, error) {
+func (g *Guacamole) CreateConnectionGroup(conn *GuacConnectionGroup) (GuacConnectionGroup, error) {
 	ret := GuacConnectionGroup{}
 	resp, err := g.Call("POST", "/api/session/data/mysql/connectionGroups", nil, conn)
 	if err != nil {
@@ -59,7 +57,7 @@ func (g *Guac) CreateConnectionGroup(conn *GuacConnectionGroup) (GuacConnectionG
 	}
 }
 
-func (g *Guac) ReadConnectionGroup(conn *GuacConnectionGroup) (GuacConnectionGroup, error) {
+func (g *Guacamole) ReadConnectionGroup(conn *GuacConnectionGroup) (GuacConnectionGroup, error) {
 	ret := GuacConnectionGroup{}
 	resp, err := g.Call("GET", "/api/session/data/mysql/connectionGroups/"+conn.Identifier, nil, nil)
 	if err != nil {
@@ -74,7 +72,7 @@ func (g *Guac) ReadConnectionGroup(conn *GuacConnectionGroup) (GuacConnectionGro
 
 }
 
-func (g *Guac) UpdateConnectionGroup(conn *GuacConnectionGroup) error {
+func (g *Guacamole) UpdateConnectionGroup(conn *GuacConnectionGroup) error {
 	_, err := g.Call("PUT", "/api/session/data/mysql/connectionGroups/"+conn.Identifier, nil, conn)
 	if err != nil {
 		return err
@@ -84,7 +82,7 @@ func (g *Guac) UpdateConnectionGroup(conn *GuacConnectionGroup) error {
 
 }
 
-func (g *Guac) DeleteConnectionGroup(conn *GuacConnectionGroup) error {
+func (g *Guacamole) DeleteConnectionGroup(conn *GuacConnectionGroup) error {
 	_, err := g.Call("DELETE", "/api/session/data/mysql/connectionGroups/"+conn.Identifier, nil, conn)
 	if err != nil {
 		return err
@@ -94,7 +92,7 @@ func (g *Guac) DeleteConnectionGroup(conn *GuacConnectionGroup) error {
 
 }
 
-func (g *Guac) ListConnectionGroups() ([]GuacConnectionGroup, error) {
+func (g *Guacamole) ListConnectionGroups() ([]GuacConnectionGroup, error) {
 	ret := []GuacConnectionGroup{}
 	conn_tree, err := g.GetConnectionTree()
 	if err != nil {

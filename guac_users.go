@@ -2,11 +2,9 @@ package guacamole
 
 import (
 	"encoding/json"
-
-	. "github.com/mdanidl/guac-api/types"
 )
 
-func (g *Guac) CreateUser(user *GuacUser) (GuacUser, error) {
+func (g *Guacamole) CreateUser(user *GuacUser) (GuacUser, error) {
 	ret := GuacUser{}
 	resp, err := g.Call("POST", "/api/session/data/mysql/users", nil, user)
 	if err != nil {
@@ -16,7 +14,7 @@ func (g *Guac) CreateUser(user *GuacUser) (GuacUser, error) {
 	return ret, nil
 }
 
-func (g *Guac) ReadUser(user *GuacUser) (GuacUser, error) {
+func (g *Guacamole) ReadUser(user *GuacUser) (GuacUser, error) {
 	ret := GuacUser{}
 	resp, err := g.Call("GET", "/api/session/data/mysql/users/"+user.Username, nil, nil)
 	if err != nil {
@@ -26,7 +24,7 @@ func (g *Guac) ReadUser(user *GuacUser) (GuacUser, error) {
 	return ret, nil
 }
 
-func (g *Guac) UpdateUser(user *GuacUser) error {
+func (g *Guacamole) UpdateUser(user *GuacUser) error {
 	_, err := g.Call("PUT", "/api/session/data/mysql/users/"+user.Username, nil, user)
 	if err != nil {
 		return err
@@ -34,7 +32,7 @@ func (g *Guac) UpdateUser(user *GuacUser) error {
 	return nil
 }
 
-func (g *Guac) DeleteUser(user *GuacUser) error {
+func (g *Guacamole) DeleteUser(user *GuacUser) error {
 	_, err := g.Call("DELETE", "/api/session/data/mysql/users/"+user.Username, nil, nil)
 	if err != nil {
 		return err
@@ -43,7 +41,7 @@ func (g *Guac) DeleteUser(user *GuacUser) error {
 	return nil
 }
 
-func (g *Guac) ListUsers() ([]GuacUser, error) {
+func (g *Guacamole) ListUsers() ([]GuacUser, error) {
 	ret := []GuacUser{}
 	marshalledResponse := map[string]GuacUser{}
 	user_tree, err := g.Call("GET", "/api/session/data/mysql/users", nil, nil)

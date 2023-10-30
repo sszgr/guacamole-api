@@ -1,4 +1,4 @@
-package types
+package guacamole
 
 type GuacUser struct {
 	Username   string             `json:"username"`
@@ -8,6 +8,8 @@ type GuacUser struct {
 }
 
 type GuacUserAttributes struct {
+	GuacEmailAddress       string `json:"guac-email-address"`
+	GuacOrganization       string `json:"guac-organization"`
 	GuacOrganizationalRole string `json:"guac-organizational-role"`
 	GuacFullName           string `json:"guac-full-name"`
 	Expired                string `json:"expired"`

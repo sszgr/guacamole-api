@@ -1,10 +1,10 @@
-package types
+package guacamole
 
 type ConnectResponse struct {
 	AuthToken            string   `json:"authToken"`
 	Username             string   `json:"username"`
-	Datasource           string   `json:"dataSource"`
-	Availabledatasources []string `json:"availableDataSource"`
+	DataSource           string   `json:"dataSource"`
+	AvailableDataSources []string `json:"availableDataSource"`
 }
 
 type ErrorResponse struct {

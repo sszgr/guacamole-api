@@ -2,13 +2,9 @@ package guacamole
 
 import (
 	"encoding/json"
-
-	"github.com/imdario/mergo"
-
-	. "github.com/mdanidl/guac-api/types"
 )
 
-func (g *Guac) CreateConnection(conn *GuacConnection) (GuacConnection, error) {
+func (g *Guacamole) CreateConnection(conn *GuacConnection) (GuacConnection, error) {
 	ret := GuacConnection{}
 	resp, err := g.Call("POST", "/api/session/data/mysql/connections", nil, conn)
 	if err != nil {
@@ -18,7 +14,7 @@ func (g *Guac) CreateConnection(conn *GuacConnection) (GuacConnection, error) {
 	return ret, nil
 }
 
-func (g *Guac) ReadConnection(conn *GuacConnection) (GuacConnection, error) {
+func (g *Guacamole) ReadConnection(conn *GuacConnection) (GuacConnection, error) {
 	ret := GuacConnection{}
 	retParams := GuacConnectionParameters{}
 
@@ -36,17 +32,14 @@ func (g *Guac) ReadConnection(conn *GuacConnection) (GuacConnection, error) {
 	if err != nil {
 		return GuacConnection{}, err
 	}
-	ret2 := GuacConnection{
-		Properties: retParams,
-	}
-	err = mergo.Merge(&ret, &ret2)
+	ret.Properties = retParams
 	if err != nil {
 		return GuacConnection{}, err
 	}
 	return ret, nil
 }
 
-func (g *Guac) UpdateConnection(conn *GuacConnection) error {
+func (g *Guacamole) UpdateConnection(conn *GuacConnection) error {
 	_, err := g.Call("PUT", "/api/session/data/mysql/connections/"+conn.Identifier, nil, conn)
 	if err != nil {
 		return err
@@ -54,7 +47,7 @@ func (g *Guac) UpdateConnection(conn *GuacConnection) error {
 	return nil
 }
 
-func (g *Guac) DeleteConnection(conn *GuacConnection) error {
+func (g *Guacamole) DeleteConnection(conn *GuacConnection) error {
 	_, err := g.Call("DELETE", "/api/session/data/mysql/connections/"+conn.Identifier, nil, nil)
 	if err != nil {
 		return err
@@ -63,7 +56,7 @@ func (g *Guac) DeleteConnection(conn *GuacConnection) error {
 	return nil
 }
 
-func (g *Guac) ListConnections() ([]GuacConnection, error) {
+func (g *Guacamole) ListConnections() ([]GuacConnection, error) {
 	ret := []GuacConnection{}
 	conn_tree, err := g.GetConnectionTree()
 	if err != nil {

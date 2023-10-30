@@ -1,4 +1,5 @@
 # Guacamole Golang Frontend API
+**Forked from [mdanidl/guac-api](https://github.com/mdanidl/guac-api)**
 
 This package is built for (Apache Guacamole)[http://guacamole.apache.org].
 
@@ -11,3 +12,18 @@ In it's current state the style of the code is very raw, and a **Work In Progres
 Also a caveat that i am by no means a software developer, and i'm doing this partly to get familiar with Golang.
 
 PRs are most welcome.
+
+## Example
+```go
+func main() {
+    g := &Guacamole{
+        BaseUrl:    "https://127.0.0.1:10001/guacamole",
+        Username:   os.Getenv("GUACAMOLE_USERNAME"),
+        Password:   os.Getenv("GUACAMOLE_PASSWORD"),
+        SkipVerify: true,
+    }
+    
+    err := g.Connect()
+    // ...
+}
+```
