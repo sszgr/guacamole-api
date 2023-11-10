@@ -15,15 +15,22 @@ PRs are most welcome.
 
 ## Example
 ```go
+package main
+
+import (
+	guacamole "github.com/sszgr/guacamole-api"
+	"os"
+)
+
 func main() {
-    g := &Guacamole{
-        BaseUrl:    "https://127.0.0.1:10001/guacamole",
-        Username:   os.Getenv("GUACAMOLE_USERNAME"),
-        Password:   os.Getenv("GUACAMOLE_PASSWORD"),
-        SkipVerify: true,
-    }
-    
-    err := g.Connect()
-    // ...
+	g := &guacamole.Guacamole{
+		BaseUrl:    "https://127.0.0.1:10001/guacamole",
+		Username:   os.Getenv("GUACAMOLE_USERNAME"),
+		Password:   os.Getenv("GUACAMOLE_PASSWORD"),
+		SkipVerify: true,
+	}
+
+	err := g.Connect()
+	// ...
 }
 ```

@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 	"time"
 )
 
@@ -110,13 +111,27 @@ func (g *Guacamole) Call(method, uri string, xq map[string]string, body interfac
 	if err != nil {
 		return []byte{}, err
 	}
+
 	if resp.Body == nil {
 		return nil, errors.New(ErrBodyIsNil)
 	}
 	defer resp.Body.Close()
+
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
+
+	if !(resp.StatusCode == 200 || resp.StatusCode == 204) {
+		var errResponse ErrorResponse
+		err = json.Unmarshal(respBody, &errResponse)
+		if err != nil {
+			return nil, err
+		}
+		msg := strconv.Itoa(resp.StatusCode) + "-" + errResponse.Type + ": " + errResponse.Message
+		err = errors.New(msg)
+		return nil, err
+	}
+
 	return respBody, nil
 }
